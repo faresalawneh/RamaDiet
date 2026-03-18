@@ -212,3 +212,77 @@ if st.session_state.plan:
         grocery_text += f"- {item}\n"
         
     st.download_button(label="📥 تحميل ورقة المقاضي", data=grocery_text, file_name="ramadan_grocery_list.txt", mime="text/plain")
+
+
+# ==========================================
+# 7. الشات بوت التغذوي
+# ==========================================
+st.markdown("---")
+st.markdown("### 🤖 اسأل مساعدك التغذوي")
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
+
+# عرض المحادثة السابقة
+for msg in st.session_state.chat_history:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+# مربع الإدخال
+if user_input := st.chat_input("اسألني عن وجبتك، بدائل، أو نصايح رمضانية..."):
+    # أضف رسالة المستخدم
+    st.session_state.chat_history.append({"role": "user", "content": user_input})
+    with st.chat_message("user"):
+        st.markdown(user_input)
+
+    # بناء السياق
+    plan_context = ""
+    if st.session_state.plan:
+        plan_context = f"""
+الخطة الغذائية الحالية للمستخدم:
+- السحور: {st.session_state.plan['suhoor']['meal_name']} - {st.session_state.plan['suhoor']['reason']}
+- الإفطار: {st.session_state.plan['iftar']['meal_name']} - {st.session_state.plan['iftar']['reason']}
+- قائمة المشتريات: {', '.join(st.session_state.plan['grocery_list'])}
+"""
+    else:
+        plan_context = "المستخدم لم يولّد خطة بعد."
+
+    system_context = f"""أنت مساعد تغذية رمضاني أردني ودّي وخبير.
+بيانات المستخدم:
+- الوزن: {weight} كغ | العمر: {age} | الطول: {height} سم
+- الهدف: {goal} | النشاط: {activity_level}
+- الحالة الصحية: {health_condition}
+{plan_context}
+أجب بشكل مختصر وودّي باللهجة الأردنية أو العربية الفصحى حسب سؤاله.
+راعِ دايماً حالته الصحية في كل نصيحة."""
+
+    # بناء تاريخ المحادثة لـ Gemini
+    gemini_history = []
+    for msg in st.session_state.chat_history[:-1]:  # كل شيء ما عدا الرسالة الأخيرة
+        gemini_history.append({
+            "role": "user" if msg["role"] == "user" else "model",
+            "parts": [msg["content"]]
+        })
+
+    with st.chat_message("assistant"):
+        with st.spinner("يفكر..."):
+            try:
+                chat_model = genai.GenerativeModel(
+                    'gemini-2.5-flash',
+                    system_instruction=system_context
+                )
+                chat = chat_model.start_chat(history=gemini_history)
+                response = chat.send_message(user_input)
+                reply = response.text
+            except Exception as e:
+                reply = f"صارت مشكلة: {e}"
+
+        st.markdown(reply)
+
+    st.session_state.chat_history.append({"role": "assistant", "content": reply})
+
+# زر مسح المحادثة
+if st.session_state.chat_history:
+    if st.button("🗑️ مسح المحادثة"):
+        st.session_state.chat_history = []
+        st.rerun()
