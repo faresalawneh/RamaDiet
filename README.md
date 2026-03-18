@@ -18,11 +18,4 @@ Built with Streamlit and the Google Gemini API, this tool dynamically adjusts fo
 * **Frontend/UI:** Streamlit
 * **Data Handling:** Pandas
 * **AI/LLM:** Google Generative AI (Gemini 2.5 Flash)
-* **Language:** Python 3.x
-
-## 🚀 How to Run Locally
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/YOUR-USERNAME/RamaDiet.git](https://github.com/YOUR-USERNAME/RamaDiet.git)
-   cd RamaDiet
+* **Language:** Python 3.14
