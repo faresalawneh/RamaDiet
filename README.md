@@ -1,7 +1,3 @@
-التعديل هاد رح يخلي الـ README يظهر بشكل احترافي جداً على GitHub، مع التركيز على إن المشروع "شامل" وبراعي "المرضى" والجانب "التقني" اللي اشتغلته بالهاكاثون.
-
-إليك النسخة المعدلة والجاهزة للنسخ:
-
 🌙 Jordanian RamaDiet 🇯🇴
 An AI-Powered Nutrition Planner for a Healthier & Inclusive Ramadan
 
