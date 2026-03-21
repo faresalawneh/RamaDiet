@@ -1,37 +1,105 @@
-🌙 Jordanian RamaDiet 🇯🇴
-An AI-Powered Nutrition Planner for a Healthier & Inclusive Ramadan
+# 🌙 RamaDiet 🇯🇴
+### AI-Powered Nutrition Planner for a Healthier & Inclusive Ramadan
 
-RamaDiet is an advanced, all-inclusive AI meal planner designed to bridge the gap between traditional Middle Eastern cuisine and modern fitness goals. Developed during the #Hack_Ramadan hackathon (March 2026), this tool helps everyone—from high-performance athletes to individuals managing chronic medical conditions—navigate their nutrition during the holy month.
+Built during the **#Hack_Ramadan Hackathon** (March 2026) by team **"The Overfitters"**.
 
-✨ Key Features
-🤖 Universal AI Customization: Powered by Gemini 2.5 Flash, the app analyzes personal stats (weight, goal, activity) to generate a macro-balanced plan suitable for weight loss, muscle gain, or healthy maintenance.
+RamaDiet is an AI meal planner that generates customized Suhoor and Iftar plans using authentic Jordanian cuisine, powered by a RAG pipeline and Google Gemini 2.5 Flash.
 
-🥘 Authentic & Inclusive Menu: Features localized favorites like Mansaf, Maqluba, and Mujadara, intelligently portioned to ensure no one feels deprived of their cultural heritage.
+---
 
-🏥 Medical Context Aware (Patient-Friendly): A core pillar of the app is safety. It dynamically filters out high-sodium or high-sugar ingredients for users managing conditions such as Hypertension or Diabetes, providing safe, health-first alternatives.
+## ✨ Key Features
 
-🎛️ Interactive Real-Time Macros: A dynamic dashboard where users can adjust ingredient weights on the fly and watch total calories, protein, and carbs update instantly.
+- **🤖 AI Customization:** Gemini 2.5 Flash analyzes your stats (weight, goal, activity level) and generates a macro-balanced plan for weight loss, muscle gain, or maintenance.
+- **🥘 Authentic Jordanian Menu:** Local favorites like Mansaf, Maqluba, and Mujadara — intelligently portioned for your goals.
+- **🏥 Medical Context Aware:** Dynamically filters high-sodium or high-sugar ingredients for users with Hypertension or Diabetes.
+- **🎛️ Interactive Macros:** Adjust ingredient weights on the fly and watch calories, protein, and carbs update in real time.
+- **💬 "Shagardi" AI Chatbot:** A bilingual (Arabic/English) diet and workout coach tuned to the Jordanian dialect.
+- **🔄 Smart Swaps:** Healthy localized alternatives for high-calorie cravings (e.g. Qatayef).
+- **💧 Hydration & Grocery Logic:** Calculates water intake needs and generates a downloadable shopping list.
 
-💬 "Shagardi" AI Coach: A smart chatbot fine-tuned with the Jordanian dialect to answer workout and diet queries, providing a localized and engaging user experience.
+---
 
-🔄 Smart Swaps: Provides healthy, localized alternatives for high-calorie cravings (like Qatayef) to keep users on track.
+## 🗂️ Project Structure
 
-💧 Hydration & Grocery Logic: Calculates exact water intake needs and generates a downloadable shopping list based on the customized plan.
+```
+RamaDiet/
+├── app.py                  # Main Streamlit application
+├── normalize_to_100g.py    # Dataset normalization script
+├── ramadan_100g.csv        # Jordanian food nutrition dataset (153 items)
+├── requirements.txt
+└── README.md
+```
 
-💡 Hackathon Insights & Learnings
-Building RamaDiet during #Hack_Ramadan was a transformative experience. Key takeaways included:
+---
 
-Rapid Prototyping: Successfully turning a complex nutritional concept into a functional MVP within a high-pressure environment.
+## 🚀 Quick Start
 
-Advanced Prompt Engineering: Mastering the ability to force LLMs to strictly adhere to JSON formats while maintaining a specific cultural persona.
+### 1. Clone the repo
+```bash
+git clone https://github.com/faresalawneh/RamaDiet.git
+cd RamaDiet
+```
 
-Inclusive Design: Learning how to integrate medical constraints into AI logic to make technology accessible and safe for patients.
+### 2. Install dependencies
+```bash
+pip install -r requirements.txt
+```
 
-🛠️ Tech Stack
-Frontend/UI: Streamlit
+### 3. Set your Gemini API key
+```bash
+export GOOGLE_API_KEY="your_api_key_here"
+```
+Get a free key at [aistudio.google.com](https://aistudio.google.com)
 
-AI/LLM Engine: Google Generative AI (Gemini 2.5 Flash)
+### 4. Run the app
+```bash
+streamlit run app.py
+```
 
-Data Processing: Pandas
+Open your browser at `http://localhost:8501`
 
-Backend: Python 3.14
+---
+
+## 🧠 How It Works
+
+1. User inputs personal stats (weight, height, goal, medical conditions)
+2. A RAG pipeline performs cosine similarity search over the 153-item Jordanian nutrition dataset
+3. Gemini 2.5 Flash selects food names and portions — nutritional values are fetched directly from CSV to prevent hallucination
+4. The app builds a complete Suhoor + Iftar plan with real-time macro tracking
+
+---
+
+## 📦 Dataset
+
+A custom 153-item Jordanian food nutrition dataset, normalized to 100g servings.
+
+| Column | Description |
+|--------|-------------|
+| `Food` | Food item name (Arabic/English) |
+| `Calories` | Per 100g |
+| `Protein` | Per 100g (g) |
+| `Carbs` | Per 100g (g) |
+| `Fat` | Per 100g (g) |
+| `Sodium` | Per 100g (mg) |
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Streamlit
+- **AI/LLM:** Google Gemini 2.5 Flash
+- **RAG:** Cosine similarity over nutrition dataset
+- **Data:** Pandas
+- **Language:** Python
+
+---
+
+## 👥 Team — The Overfitters
+
+Built at **#Hack_Ramadan Hackathon**, March 2026.
+
+---
+
+## 📝 License
+
+MIT License
